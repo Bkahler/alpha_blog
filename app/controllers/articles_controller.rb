@@ -9,11 +9,17 @@ class ArticlesController < ApplicationController
     
     if @article.save
       logger.debug "#{ "-" * 10} class: #{self}, method: #{__method__}, message: created new article"
-      redirect to article_show(@article)
+      flash[:notice] = "Article was succesfully added"
+      redirect_to article_path(@article)
     else
       logger.warn "#{ "-" * 10} class: #{self}, method: #{__method__}, message: article failed to create: #{ @article.errors.full_messages }"
+      render 'new'
     end 
   end
+  
+  def show
+    @article = Article.find(params[:id])
+  end 
   
   private
   
