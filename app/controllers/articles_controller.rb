@@ -13,11 +13,11 @@ class ArticlesController < ApplicationController
     @article = Article.new(article_params)
     
     if @article.save
-      logger.debug "#{ "-" * 10} class: #{self}, method: #{__method__}, message: created new article #{ "-" * 10}"
+      logger.debug "#{ "-" * 10} session: #{session.id}, class: #{self}, method: #{__method__}, message: created new article #{ "-" * 10}"
       flash[:notice] = "Article was succesfully added"
       redirect_to article_path(@article)
     else
-      logger.warn "#{ "-" * 10} class: #{self}, method: #{__method__}, message: article failed to create... #{ @article.errors.full_messages } #{ "-" * 10}"
+      logger.warn "#{ "-" * 10} session: #{session.id}, class: #{self}, method: #{__method__}, message: article failed to create... #{ @article.errors.full_messages } #{ "-" * 10}"
       render 'new'
     end 
   end
@@ -30,22 +30,22 @@ class ArticlesController < ApplicationController
   
   def update
     if @article.update(article_params)
-      logger.debug "#{ "-" * 10} class: #{self}, method: #{__method__}, message: updated article #{@article.id} #{ "-" * 10}"
+      logger.debug "#{ "-" * 10} session: #{session.id}, class: #{self}, method: #{__method__}, message: updated article #{@article.id} #{ "-" * 10}"
       flash[:notice] = "Article was successfully updated"
       redirect_to article_path(@article)
     else 
-      logger.warn "#{ "-" * 10} class: #{self}, method: #{__method__}, message: failed to update article #{@article.id}...#{ @article.errors.full_messages } #{ "-" * 10}"
+      logger.warn "#{ "-" * 10} session: #{session.id}, class: #{self}, method: #{__method__}, message: failed to update article #{@article.id}...#{ @article.errors.full_messages } #{ "-" * 10}"
       render 'edit'
     end
   end 
   
   def destroy
     if @article.destroy
-      logger.debug "#{ "-" * 10} class: #{self}, method: #{__method__}, message: deleted article #{@article.id} #{ "-" * 10}"
+      logger.debug "#{ "-" * 10} session: #{session.id}, class: #{self}, method: #{__method__}, message: deleted article #{@article.id} #{ "-" * 10}"
       flash[:notice] = "Article was successfully deleted"
       redirect_to articles_path
     else
-      logger.warn "#{ "-" * 10} class: #{self}, method: #{__method__}, message: failed to delete article #{@article.id}...#{ @article.errors.full_messages } #{ "-" * 10}"
+      logger.warn "#{ "-" * 10} session: #{session.id}, class: #{self}, method: #{__method__}, message: failed to delete article #{@article.id}...#{ @article.errors.full_messages } #{ "-" * 10}"
       redirect_to request.referer
     end 
   end 
