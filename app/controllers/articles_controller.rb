@@ -41,6 +41,18 @@ class ArticlesController < ApplicationController
     end
   end 
   
+  def destroy
+    @article = Article.find(params[:id])
+    if @article.destroy
+      logger.debug "#{ "-" * 10} class: #{self}, method: #{__method__}, message: deleted article #{@article.id} #{ "-" * 10}"
+      flash[:notice] = "Article was successfully deleted"
+      redirect_to articles_path
+    else
+      logger.warn "#{ "-" * 10} class: #{self}, method: #{__method__}, message: failed to delete article #{@article.id}...#{ @article.errors.full_messages } #{ "-" * 10}"
+      redirect_to request.referer
+    end 
+  end 
+  
   private
   
   def article_params
