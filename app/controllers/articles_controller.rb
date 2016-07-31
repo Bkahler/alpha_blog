@@ -53,6 +53,10 @@ class ArticlesController < ApplicationController
   private
     def set_article
       @article = Article.find(params[:id])
+      rescue => e
+        logger.warn "#{ "-" * 10} session: #{session.id}, class: #{self}, method: #{__method__}, message: failed to find article #{params[:id]}...#{ e.message } #{ "-" * 10}"
+        flash[:error] = "Failed to find article"
+        redirect_to articles_path
     end 
     
     def article_params
