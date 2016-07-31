@@ -1,13 +1,23 @@
 <% if @article.errors.any? %>
-  <ul>
-    <% @article.errors.full_messages.each do |msg| %>
-      <li> <%= msg %> </li> 
-    <% end %>
-  </ul>
+  <div class="row">
+    <div class="col-xs-8 col-xs-offset-2">
+      <div class="panel panel-danger">
+        <div class="panel-heading">
+          <h2 class="panel-title"> <%= pluralize(@article.errors.count, "error")%> prevented article from being saved:</h2>
+        </div>
+        <div class="panel-body">
+          <ul>
+            <% @article.errors.full_messages.each do |msg| %>
+              <li> <%= msg %> </li> 
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 <% end %>
 
 <div class="row">
-  
   <div class="col-xs-12">
     <%= form_for(@article, :html => {class: "form-horizontal", role: "form"}) do |f| %>
     
