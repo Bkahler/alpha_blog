@@ -9,8 +9,8 @@ class ArticlesController < ApplicationController
   end  
   
   def create
-    # render plain: params[:articles].inspect
     @article = Article.new(article_params)
+    @article.user = User.first
     
     if @article.save
       logger.debug "#{ "-" * 10} session: #{session.id}, class: #{self}, method: #{__method__}, message: created new article #{ "-" * 10}"
