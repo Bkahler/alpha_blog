@@ -28,6 +28,16 @@
           <%= f.password_field :password, class: "form-control", placeholder: "Enter password" %>
         </div>
       </div>
+      <% if @user.new_record? %>
+        <div class="form-group">
+          <div class="control-label col-sm-2">
+            <%= f.label :password_confirmation %>
+          </div>
+          <div class="col-sm-8">
+            <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm password" %>
+          </div>
+        </div>
+      <% end %>
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
           <%= f.submit(@user.new_record? ? "Sign up" : "Update Account", class: "btn btn-primary btn-lrg") %> 
