@@ -1,6 +1,8 @@
 class ArticlesController < ApplicationController
   before_action :set_article, only: [:edit, :update, :show, :destroy]
-  
+  before_action :require_user, except: [:index, :show]
+  before_action :require_same_user, except: [:edit, :update, :destroy]
+
   def index
     @articles = Article.paginate(page: params[:page], per_page: 2)
   end
@@ -11,7 +13,7 @@ class ArticlesController < ApplicationController
   
   def create
     @article = Article.new(article_params)
-    @article.user = User.first
+    @article.user = current_user
     
     if @article.save
       logger.debug "#{ "-" * 10} session: #{session.id}, class: #{self}, method: #{__method__}, message: created new article #{ "-" * 10}"
@@ -62,5 +64,12 @@ class ArticlesController < ApplicationController
     
     def article_params
       params.require(:article).permit(:title, :description)
+    end 
+    
+    def require_same_user
+      if current_user != @article.user
+         flash[:error] = "You are unauthorized to perform that action."
+          redirect_to request.referer 
+      end 
     end 
 end 

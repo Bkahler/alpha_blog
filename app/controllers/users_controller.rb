@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:edit, :update, :show, :destroy]
+  before_action :require_user, except: [:index, :show]
+  before_action :require_same_user, except: [:edit, :update, :destroy]
 
   def new
     @user = User.new
@@ -50,6 +52,14 @@ class UsersController < ApplicationController
   
   def user_params
     params.require(:user).permit(:username, :email, :password, :password_confirmation)
+  end
+  
+  def require_same_user
+    if current_user != @user
+       flash[:error] = "You are unauthorized to perform that action."
+        redirect_to request.referer 
+    end 
   end 
+  
 
 end
