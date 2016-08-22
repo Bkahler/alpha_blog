@@ -58,7 +58,7 @@ class ArticlesController < ApplicationController
       @article = Article.find(params[:id])
       rescue => e
         logger.warn "#{ "-" * 10} session: #{session.id}, class: #{self}, method: #{__method__}, message: failed to find article #{params[:id]}...#{ e.message } #{ "-" * 10}"
-        flash[:error] = "Failed to find article"
+        flash[:danger] = "Failed to find article"
         redirect_to articles_path
     end 
     
@@ -68,7 +68,7 @@ class ArticlesController < ApplicationController
     
     def require_same_user
       if current_user != @article.user
-         flash[:error] = "You are unauthorized to perform that action."
+         flash[:danger] = "You are unauthorized to perform that action."
           redirect_to request.referer 
       end 
     end 

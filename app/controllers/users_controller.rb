@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:edit, :update, :show, :destroy]
-  before_action :require_user, except: [:index, :show]
-  before_action :require_same_user, except: [:edit, :update, :destroy]
+  before_action :require_user, only: [:edit, :update, :destroy]
+  before_action :require_same_user, only: [:edit, :update, :destroy]
 
   def new
     @user = User.new
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     rescue => e
       logger.warn "#{ "-" * 10} session: #{session.id}, class: #{self}, method: #{__method__}, message: failed to find user #{params[:id]}...#{ e.message } #{ "-" * 10}"
-      flash[:error] = "Failed to find user"
+      flash[:danger] = "Failed to find user"
       redirect_to articles_path
   end 
   
@@ -56,8 +56,8 @@ class UsersController < ApplicationController
   
   def require_same_user
     if current_user != @user
-       flash[:error] = "You are unauthorized to perform that action."
-        redirect_to request.referer 
+      flash[:danger] = "You are unauthorized to perform that action."
+      redirect_to request.referer 
     end 
   end 
   
