@@ -35,7 +35,7 @@ class UsersController < ApplicationController
       redirect_to articles_path
     else
       render 'edit'
-    end 
+    end
   end 
   
   private
