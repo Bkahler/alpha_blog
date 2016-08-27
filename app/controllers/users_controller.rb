@@ -29,13 +29,19 @@ class UsersController < ApplicationController
   end 
   
   def edit
+  end  
+  
+  def destroy
+    @user.destroy
+    flash[:danger] = "User and all associated articles have been deleted"
+    users_redirect(root_path)
   end
   
   def update
     if @user.update(user_params)
       logger.debug "#{ "-" * 10} session: #{session.id}, class: #{self}, method: #{__method__}, message: updated user #{ "-" * 10}"
       flash[:success] = "User: #{@user.username} successfully updated"
-      redirect_to articles_path
+      users_redirect(articles_path)
     else
       render 'edit'
     end
@@ -48,7 +54,7 @@ class UsersController < ApplicationController
     rescue => e
       logger.warn "#{ "-" * 10} session: #{session.id}, class: #{self}, method: #{__method__}, message: failed to find user #{params[:id]}...#{ e.message } #{ "-" * 10}"
       flash[:danger] = "Failed to find user"
-      redirect_to articles_path
+      users_redirect(articles_path)
   end 
   
   def user_params
@@ -56,11 +62,18 @@ class UsersController < ApplicationController
   end
   
   def require_same_user
-    if current_user != @user && !current_user.admin
+    if current_user != @user && !current_user.admin?
       flash[:danger] = "You are unauthorized to perform that action."
-      redirect_to request.referer 
+      users_redirect(root_path)
     end 
   end 
   
+  def users_redirect(path)
+    if request.referer 
+      redirect_to request.referer 
+    else
+      redirect_to path
+    end
+  end 
 
 end
