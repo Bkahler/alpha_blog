@@ -46,10 +46,10 @@ class ArticlesController < ApplicationController
     if @article.destroy
       logger.debug "#{ "-" * 10} session: #{session.id}, class: #{self}, method: #{__method__}, message: deleted article #{@article.id} #{ "-" * 10}"
       flash[:danger] = "Article was successfully deleted"
-      articles_redirect(articles_path)
+      request_redirect(articles_path)
     else
       logger.warn "#{ "-" * 10} session: #{session.id}, class: #{self}, method: #{__method__}, message: failed to delete article #{@article.id}...#{ @article.errors.full_messages } #{ "-" * 10}"
-      articles_redirect(articles_path)
+      request_redirect(articles_path)
     end 
   end 
   
@@ -59,7 +59,7 @@ class ArticlesController < ApplicationController
       rescue => e
         logger.warn "#{ "-" * 10} session: #{session.id}, class: #{self}, method: #{__method__}, message: failed to find article #{params[:id]}...#{ e.message } #{ "-" * 10}"
         flash[:danger] = "Failed to find article"
-        articles_redirect(articles_path)
+        request_redirect(articles_path)
     end 
     
     def article_params
@@ -69,15 +69,8 @@ class ArticlesController < ApplicationController
     def require_same_user
       if current_user != @article.user && !current_user.admin?
          flash[:danger] = "You are unauthorized to perform that action."
-         articles_redirect(root_path)
+         request_redirect(root_path)
       end 
     end 
     
-    def articles_redirect(path)
-      if request.referer
-        redirect_to request.referer
-      else
-        redirect_to path
-      end
-    end 
 end 

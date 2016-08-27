@@ -21,4 +21,14 @@ class ApplicationController < ActionController::Base
       redirect_to root_path
     end
   end 
+  
+  def request_redirect(path)
+    if request.referer
+      redirect_to request.referer
+    else
+      redirect_to path
+    end
+  end 
+  
+  
 end
