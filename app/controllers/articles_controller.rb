@@ -65,7 +65,7 @@ class ArticlesController < ApplicationController
     def article_params
       params.require(:article).permit(:title, :description)
     end 
-    
+  
     def require_same_user
       if current_user != @article.user && !current_user.admin?
          flash[:danger] = "You are unauthorized to perform that action."
