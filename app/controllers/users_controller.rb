@@ -56,7 +56,7 @@ class UsersController < ApplicationController
   end
   
   def require_same_user
-    if current_user != @user
+    if current_user != @user && !current_user.admin
       flash[:danger] = "You are unauthorized to perform that action."
       redirect_to request.referer 
     end 
