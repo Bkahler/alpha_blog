@@ -16,6 +16,12 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should get edit' do
+    session[:user_id] = @user.id
+    get(:edit, {'id'=>  @user.id})
+    assert_response :success
+  end
+
   test 'should get show' do
     get(:show, {'id'=>  @user.id})
     assert_response :success
