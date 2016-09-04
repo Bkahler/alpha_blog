@@ -86,3 +86,14 @@ $navbar-default-bg: rgba(241, 196, 15,1.0);
 .listing{
     list-style: none;
 }
+
+.badge{
+    background-color: #CEF6F5;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    font-weight: bold;
+}
+
+.input-checkbo input{
+    width: auto !important;
+}
